@@ -7,6 +7,7 @@ from django.contrib import admin
 from django.contrib.admin import SimpleListFilter
 from django.utils import timezone
 from django.utils.safestring import mark_safe
+from django.utils.timezone import get_current_timezone
 from dramatiq import Message
 
 from .models import Task
@@ -78,7 +79,8 @@ class TaskAdmin(admin.ModelAdmin):
         )
 
         # Django expects a timezone-aware datetime if USE_TZ is True, and a naive datetime in localtime otherwise.
-        tz = timezone.utc if settings.USE_TZ else None
+        # return timezone.make_aware(datetime.utcfromtimestamp(timestamp))
+        tz = get_current_timezone() if settings.USE_TZ else None
         return datetime.fromtimestamp(timestamp, tz=tz)
 
     def message_details(self, instance):
