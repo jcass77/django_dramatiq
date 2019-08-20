@@ -78,8 +78,8 @@ class TaskAdmin(admin.ModelAdmin):
         )
 
         # Django expects a timezone-aware datetime if USE_TZ is True, and a naive datetime in localtime otherwise.
-        # tz = timezone.utc if settings.USE_TZ else None
-        return datetime.fromtimestamp(timestamp, tz=timezone.utc)
+        tz = timezone.utc if settings.USE_TZ else None
+        return datetime.fromtimestamp(timestamp, tz=tz)
 
     def message_details(self, instance):
         message_details = json.dumps(instance.message._asdict(), indent=4)
